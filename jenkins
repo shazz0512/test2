@@ -17,14 +17,14 @@ pipeline {
       steps {
         sh 'sudo whoami'  
         sh 'sudo rm trufflehog || true'
-        sh 'sudo docker run gesellix/trufflehog --json https://github.com/shazz0512/testproject.git > trufflehog'
+        sh 'sudo docker run gesellix/trufflehog --json https://github.com/shazz0512/test2.git > trufflehog'
         sh 'sudo cat trufflehog'
       }
     }
     stage ('Source Composition Analysis') {
       steps {
          sh 'sudo rm owasp* || true'
-         sh 'sudo wget "https://raw.githubusercontent.com/shazz0512/testproject/master/owasp-dependency-check.sh" '
+         sh 'sudo wget "https://raw.githubusercontent.com/shazz0512/test2/master/owasp-dependency-check.sh" '
          sh 'sudo chmod +x owasp-dependency-check.sh'
          sh 'sudo bash owasp-dependency-check.sh'
          archiveArtifacts artifacts: '**/odc-reports/*', allowEmptyArchive: true
@@ -47,7 +47,7 @@ pipeline {
     }
     stage ('Deploy-To-Tomcat') {
             steps {
-                sh 'sudo cp target/*.war /opt/tomcat9/webapps/webapp.war'
+                sh 'sudo cp target/*.war /opt/tomcat9/webapps/Sharu.war'
               }             
     }
     stage ('DAST') {
