@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>23.groupno23.demo</groupId>
+  <artifactId>WebApp</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>WebApp Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>Sharu</finalName>
+	<plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.4.0</version>
+            <configuration>
+			  <webResources>
+				<resource>
+					<directory>src\main\webapps</directory>
+						<includes>
+							<include>**/*.css</include>
+							<include>**/*.js</include>
+							<include>**/*.jsp</include>
+            <!-- Add more includes if needed -->
+						</includes>
+			<!-- 		<targetPath>src\main\webapps</targetPath> -->
+				</resource>
+    <!-- Add more resource entries for other files -->
+			</webResources>
+                <!-- Specify location of your web.xml file -->
+                <webXml>src\main\webapps\WEB-INF\web.xml</webXml>
+            </configuration>
+        </plugin>
+        <!-- Other plugins and configurations -->
+    </plugins>
+	
+
+  </build>
+</project>
