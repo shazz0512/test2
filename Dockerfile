@@ -2,7 +2,7 @@
 FROM tomcat:latest
 
 # Copy your .war file into the Tomcat webapps directory
-COPY cdac.war /usr/local/tomcat/webapps/
+COPY target/cdac.war /usr/local/tomcat/webapps/
 
 # (Optional) If your .war file has a different name, rename it to 'ROOT.war'
 # RUN mv /usr/local/tomcat/webapps/your-app.war /usr/local/tomcat/webapps/ROOT.war
