@@ -63,7 +63,7 @@ pipeline {
     stage ('DAST') {
       steps {
          sh 'sudo mkdir -p /opt/zap' 
-         sh 'sudo ssh root@172.31.10.91 "sudo docker run --rm -u root -v /opt/zap:/zap/wrk:rw -t owasp/zap2docker-stable zap-baseline.py -t http://65.0.71.70:8181/cdac/ -x zap_report || true" '
+         sh 'sudo ssh root@172.31.10.91 "sudo docker run --rm -u root -v /opt/zap:/zap/wrk:rw -t owasp/zap2docker-stable zap-baseline.py -t http://65.2.31.246:32664/cdac/ -x zap_report || true" '
         }
       }
    
