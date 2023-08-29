@@ -45,9 +45,11 @@ pipeline {
       sh 'sudo mvn clean package'
        }
     }
-    stage ('Deploy-To-Tomcat') {
+    stage ('Deploy-To-Tomcat-Docker') {
             steps {
-                sh 'sudo cp target/*.war /opt/tomcat9/webapps/cdac.war'
+                sh 'sudo docker build -t cdac .'
+                sh 'sudo docker tag cdac localhost:5000/cdac'
+                sh 'sudo docker push localhost:5000/cdac'
               }             
     }
     stage ('DAST') {
