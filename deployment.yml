@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: tomcat
-        image: localhost:5000/sharu:latest
+        image: localhost:5000/cdac:latest
         ports:
         - containerPort: 8080
