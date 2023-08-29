@@ -54,7 +54,9 @@ pipeline {
     }
     stage ('Deploy-To-K8s') {
             steps {
-               
+               sh 'sudo microk8s kubectl apply -f deployment.yml'
+               sh 'sudo microk8s kubectl apply -f service.yml'
+               sh 'sudo microk8s kubectl get svc tomcat-service'
               }             
     }
     
