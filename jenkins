@@ -52,6 +52,12 @@ pipeline {
                 sh 'sudo docker push localhost:5000/cdac'
               }             
     }
+    stage ('Deploy-To-K8s') {
+            steps {
+               
+              }             
+    }
+    
     stage ('DAST') {
       steps {
          sh 'sudo mkdir -p /opt/zap' 
