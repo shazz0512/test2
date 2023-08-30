@@ -1,0 +1,61 @@
+pipeline {
+  agent any 
+  tools {
+    maven 'Maven'
+  }
+  stages {
+    stage ('Initialize') {
+      steps {
+        sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+            ''' 
+      }
+    }
+  
+    stage ('Check-Git-Secrets') {
+      steps {
+        sh 'sudo whoami'  
+        sh 'sudo rm trufflehog || true'
+        sh 'sudo docker run gesellix/trufflehog --json https://github.com/shazz0512/test2.git > trufflehog'
+        sh 'sudo cat trufflehog'
+      }
+    }
+    stage ('Source Composition Analysis') {
+      steps {
+         sh 'sudo rm owasp* || true'
+         sh 'sudo wget "https://raw.githubusercontent.com/shazz0512/test2/master/owasp-dependency-check.sh" '
+         sh 'sudo chmod +x owasp-dependency-check.sh'
+         sh 'sudo bash owasp-dependency-check.sh'
+         archiveArtifacts artifacts: '**/odc-reports/*', allowEmptyArchive: true
+        
+      }
+    }
+    
+     stage ('SAST') {
+      steps {
+        withSonarQubeEnv('sonar') {
+          sh 'sudo mvn sonar:sonar -Dsonar.login=2d27be64d4de504b642547a47c2cef18ccad564c'
+          sh 'sudo cat target/sonar/report-task.txt '
+        }
+      }
+    }
+     stage ('Build') {
+      steps {
+      sh 'sudo mvn clean package'
+       }
+    }
+    stage ('Deploy-To-Tomcat') {
+            steps {
+                sh 'sudo cp target/*.war /opt/tomcat9/webapps/cdac.war'
+              }             
+    }
+    stage ('DAST') {
+      steps {
+         sh 'sudo mkdir -p /opt/zap' 
+         sh 'sudo ssh root@172.31.10.91 "sudo docker run --rm -u root -v /opt/zap:/zap/wrk:rw -t owasp/zap2docker-stable zap-baseline.py -t http://65.0.71.70:8181/cdac/ -x zap_report || true" '
+        }
+      }
+   
+}
+}
